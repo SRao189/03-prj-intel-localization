@@ -79,6 +79,24 @@ if (newsletterForm) {
   });
 }
 
+/* ============================================================
+   Language buttons -> Google Website Translator.
+   Sets the googtrans cookie and reloads; the widget reads it on load and
+   translates the page. For Arabic it adds "translated-rtl" to <html>, which
+   the observer above turns into a full right-to-left layout.
+   ============================================================ */
+function setSiteLanguage(lang) {
+  const cookie = "googtrans=/en/" + lang + ";path=/";
+  document.cookie = cookie;                          // host-only
+  document.cookie = cookie + ";domain=" + location.hostname;
+  location.reload();
+}
+
+const arBtn = document.getElementById("lang-ar");
+const enBtn = document.getElementById("lang-en");
+if (arBtn) arBtn.addEventListener("click", () => setSiteLanguage("ar"));
+if (enBtn) enBtn.addEventListener("click", () => setSiteLanguage("en"));
+
 /* ponytail: one runnable self-check for the RTL branch. Runs only with
    ?selftest in the URL so the production console stays clean. */
 if (location.search.includes("selftest")) {
