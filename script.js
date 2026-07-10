@@ -45,7 +45,10 @@ function shouldUseRtl(htmlEl) {
 function applyDirection() {
   const html = document.documentElement;
   const rtl = shouldUseRtl(html);
-  html.setAttribute("dir", rtl ? "rtl" : "ltr");
+  const dir = rtl ? "rtl" : "ltr";
+  // Only write when the value actually changes — otherwise setAttribute
+  // re-fires the MutationObserver below and loops forever, freezing the page.
+  if (html.getAttribute("dir") !== dir) html.setAttribute("dir", dir);
   const css = document.getElementById("bootstrap-css");
   const wanted = rtl ? RTL_CSS : LTR_CSS;
   if (css && css.getAttribute("href") !== wanted) css.setAttribute("href", wanted);
