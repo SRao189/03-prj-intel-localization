@@ -586,3 +586,201 @@ main,
     transition-delay: 0ms !important;
   }
 }
+
+/* ============================================================
+   PROJECT 3 ADDITIONS
+   ============================================================ */
+
+/* Guard: Bootstrap's reset makes headings font-weight:500. Restore the
+   bold weight the hand-built timeline/hero relied on, so adding Bootstrap
+   doesn't quietly lighten the existing design. */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+/* Map Bootstrap's primary color to the site's Intel blue so buttons,
+   form focus rings, and the accordion match the rest of the page. */
+:root {
+  --bs-primary: var(--intel-blue);
+  --bs-primary-rgb: 0, 104, 181;
+  --bs-link-color-rgb: 0, 104, 181;
+}
+
+/* New sections share the site's max-width + horizontal centering. */
+.pillars-section,
+.faq-section,
+.subscribe-section {
+  width: min(100%, var(--max-width));
+  margin-inline: auto;
+  padding-block: 1rem 4rem;
+}
+
+/* ---- Three-column focus areas ---- */
+.pillar-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.6rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.pillar-card:hover,
+.pillar-card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.pillar-icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--intel-cyan), var(--intel-blue));
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.pillar-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.pillar-card p {
+  margin: 0;
+  color: var(--muted);
+  flex-grow: 1;
+}
+
+.learn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  margin-top: 0.35rem;
+  color: var(--intel-blue-deep);
+  font-weight: 700;
+}
+
+.learn-more:hover,
+.learn-more:focus-visible {
+  gap: 0.7rem;
+  color: var(--intel-blue);
+}
+
+.learn-more:focus-visible {
+  outline: 3px solid rgba(64, 196, 255, 0.65);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---- Accordion (LevelUp 2) — soften Bootstrap to match the surface ---- */
+.faq-section .accordion {
+  --bs-accordion-border-color: rgba(0, 104, 181, 0.14);
+  --bs-accordion-active-bg: rgba(0, 104, 181, 0.08);
+  --bs-accordion-active-color: var(--intel-blue-deep);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 3px rgba(64, 196, 255, 0.4);
+  --bs-accordion-border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* ---- Subscription form ---- */
+.subscribe-card {
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  border: 1px solid rgba(0, 104, 181, 0.12);
+  box-shadow: var(--shadow);
+}
+
+.subscribe-card .section-heading {
+  margin-bottom: 1.5rem;
+}
+
+.subscribe-form {
+  max-width: 34rem;
+}
+
+.subscribe-form .form-control:focus {
+  border-color: var(--intel-blue);
+  box-shadow: 0 0 0 3px rgba(64, 196, 255, 0.35);
+}
+
+.subscribe-submit {
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.form-status {
+  margin: 1rem 0 0;
+  min-height: 1.25rem;
+  color: var(--intel-blue-deep);
+  font-weight: 700;
+}
+
+/* ---- Enhanced footer ---- */
+.footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(0, 104, 181, 0.12);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.footer-copy {
+  margin: 0;
+  color: var(--text);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  color: var(--intel-blue-deep);
+  font-weight: 600;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--intel-blue);
+  text-decoration: underline;
+}
+
+.footer-disclaimer {
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(0, 104, 181, 0.12);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* ---- RTL fixes for the few physically-positioned elements ---- */
+[dir="rtl"] .skip-link {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .hero-card {
+  right: auto;
+  left: 2rem;
+}
+
+/* Directional arrow should point the reading direction. */
+[dir="rtl"] .learn-more .bi-arrow-right {
+  transform: scaleX(-1);
+}
