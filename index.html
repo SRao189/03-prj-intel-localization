@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intel Sustainability Timeline</title>
+    <meta
+      name="description"
+      content="An interactive student-built timeline exploring Intel's sustainability priorities and long-term environmental goals."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#timeline">Skip to timeline</a>
+
+    <header class="site-header">
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">I</span>
+          <span class="brand-text">
+            <span class="brand-name">Intel Sustainability Timeline</span>
+            <span class="brand-subtitle">Student interactive project</span>
+          </span>
+        </a>
+        <div class="topbar-links">
+          <a href="#timeline">Timeline</a>
+          <a href="#approach">Approach</a>
+          <a href="#footer">Disclaimer</a>
+        </div>
+      </nav>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Interactive Web Experience</p>
+          <h1>Intel's sustainability goals, mapped as a responsive timeline.</h1>
+          <p class="hero-text">
+            This page presents major sustainability focus areas through a flexible,
+            touch-friendly timeline that shifts from horizontal exploration on larger
+            screens to a clear vertical reading flow on smaller devices.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#timeline">Explore Timeline</a>
+            <a class="button button-secondary" href="#approach">See the Layout</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-hidden="true">
+          <div class="hero-orbit hero-orbit-large"></div>
+          <div class="hero-orbit hero-orbit-small"></div>
+          <div class="hero-grid"></div>
+          <div class="hero-card">
+            <span class="hero-card-label">Focus Areas</span>
+            <strong>Energy</strong>
+            <strong>Water</strong>
+            <strong>Waste</strong>
+            <strong>Climate</strong>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="section-intro" id="approach">
+        <div>
+          <p class="section-label">Responsive layout</p>
+          <h2>Built to read like a story, not a spreadsheet.</h2>
+        </div>
+        <p>
+          Each milestone card highlights a year, title, and visual by default.
+          Additional details appear smoothly on hover and keyboard focus, while
+          the same content remains accessible on touch devices through the card
+          summary control.
+        </p>
+      </section>
+
+      <section class="timeline-section" id="timeline" aria-labelledby="timeline-heading">
+        <div class="section-heading">
+          <p class="section-label">Timeline</p>
+          <h2 id="timeline-heading">Key sustainability milestones and long-term targets</h2>
+          <p>
+            On desktop, scroll horizontally through the timeline. On tablet and mobile,
+            the cards stack vertically for easier reading.
+          </p>
+        </div>
+
+        <div class="timeline-shell">
+          <div class="timeline-track" role="list" aria-label="Intel sustainability milestones">
+            <details class="timeline-card" role="listitem">
+              <summary>
+                <span class="card-year">2020</span>
+                <h3>RISE strategy establishes the roadmap</h3>
+                <div class="card-image-frame">
+                  <img
+                    src="assets/rise-strategy.svg"
+                    alt="Abstract blue illustration representing a sustainability roadmap and connected global goals."
+                  />
+                </div>
+                <p class="card-teaser">
+                  Intel frames sustainability as a long-range operating priority.
+                </p>
+                <span class="card-hint">Hover or tap for more</span>
+              </summary>
+              <div class="card-panel">
+                <p>
+                  Intel's RISE framework grouped responsibility, inclusion,
+                  sustainability, and technology leadership into a clearer public plan.
+                  It gave later environmental goals a structure that could be tracked
+                  over time.
+                </p>
+              </div>
+            </details>
+
+            <details class="timeline-card" role="listitem">
+              <summary>
+                <span class="card-year">2022</span>
+                <h3>Renewable electricity becomes a visible priority</h3>
+                <div class="card-image-frame">
+                  <img
+                    src="assets/renewable-energy.svg"
+                    alt="Stylized illustration of solar panels and a wind turbine in Intel blue tones."
+                  />
+                </div>
+                <p class="card-teaser">
+                  Cleaner electricity sourcing becomes central to facility operations.
+                </p>
+                <span class="card-hint">Hover or tap for more</span>
+              </summary>
+              <div class="card-panel">
+                <p>
+                  A strong renewable-energy focus supports lower operational emissions
+                  and connects Intel's manufacturing footprint to broader clean-energy
+                  adoption.
+                </p>
+              </div>
+            </details>
+
+            <details class="timeline-card" role="listitem">
+              <summary>
+                <span class="card-year">2030</span>
+                <h3>Net positive water and zero waste goals shape operations</h3>
+                <div class="card-image-frame">
+                  <img
+                    src="assets/water-waste.svg"
+                    alt="Blue illustration combining water droplets, recycling arrows, and a circular systems motif."
+                  />
+                </div>
+                <p class="card-teaser">
+                  Water restoration and circular manufacturing move into the foreground.
+                </p>
+                <span class="card-hint">Hover or tap for more</span>
+              </summary>
+              <div class="card-panel">
+                <p>
+                  Intel's public 2030 sustainability direction emphasizes restoring
+                  more fresh water than it consumes and reducing waste through reuse,
+                  recycling, and landfill-diversion programs.
+                </p>
+              </div>
+            </details>
+
+            <details class="timeline-card" role="listitem">
+              <summary>
+                <span class="card-year">2040</span>
+                <h3>Net-zero operations target pushes deeper decarbonization</h3>
+                <div class="card-image-frame">
+                  <img
+                    src="assets/net-zero-operations.svg"
+                    alt="Illustration of a low-emissions factory skyline with circular arrows and a rising line."
+                  />
+                </div>
+                <p class="card-teaser">
+                  Operational emissions reductions become a long-horizon manufacturing goal.
+                </p>
+                <span class="card-hint">Hover or tap for more</span>
+              </summary>
+              <div class="card-panel">
+                <p>
+                  The net-zero operations target points toward major changes in energy
+                  sourcing, process efficiency, and facility design across Intel's
+                  manufacturing environment.
+                </p>
+              </div>
+            </details>
+
+            <details class="timeline-card" role="listitem">
+              <summary>
+                <span class="card-year">2050</span>
+                <h3>Value-chain accountability extends beyond Intel's own campuses</h3>
+                <div class="card-image-frame">
+                  <img
+                    src="assets/value-chain.svg"
+                    alt="Illustration of connected supply-chain nodes surrounding a globe and leaf symbol."
+                  />
+                </div>
+                <p class="card-teaser">
+                  Long-term climate responsibility expands to suppliers and partners.
+                </p>
+                <span class="card-hint">Hover or tap for more</span>
+              </summary>
+              <div class="card-panel">
+                <p>
+                  A longer-range sustainability outlook depends on collaboration across
+                  manufacturing, logistics, and supplier relationships, not only direct
+                  emissions inside Intel facilities.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer">
+      <p>
+        Educational project only. This is an independent student assignment and is not
+        an official Intel website.
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
