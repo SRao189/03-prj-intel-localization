@@ -75,7 +75,7 @@ if (newsletterForm) {
     }
     newsletterForm.classList.remove("was-validated");
     newsletterForm.reset();
-    status.textContent = "Thanks for subscribing! Check your inbox to confirm.";
+    status.textContent = "Validation complete. This educational demo did not submit or retain your information.";
   });
 }
 
