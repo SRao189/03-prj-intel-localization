@@ -1,114 +1,102 @@
-const timelineCards = document.querySelectorAll(".timeline-card");
+// Draws a bar chart from the <table> inside each figure[data-chart].
+// The table stays in the page for screen readers and no-JS readers; the chart is decoration over it.
+const SVG_NS = "http://www.w3.org/2000/svg";
+const LABEL_ROOM = 124, NARROW = 440;
 
-function setHintState(card) {
-  const hint = card.querySelector(".card-hint");
-  if (!hint) return;
-  hint.textContent = card.open ? "Tap or press Enter to collapse" : "Hover or tap for more";
+function el(name, attrs, text) {
+  const node = document.createElementNS(SVG_NS, name);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  if (text !== undefined) node.textContent = text;
+  return node;
 }
 
-timelineCards.forEach((card) => {
-  setHintState(card);
+// Drawn at the figure's real pixel width, so 15px text stays 15px on a phone instead of shrinking with a fixed viewBox.
+function drawChart(figure) {
+  figure.querySelectorAll(".chart-svg, .chart-title").forEach((n) => n.remove());
+  const W = Math.max(300, Math.round(figure.clientWidth));
+  // Narrow charts give the bars the full width and move the goal label under the years.
+  const narrow = W < NARROW;
+  const H = narrow ? 292 : 270;
+  // Right-to-left pages read time right to left: mirror every x. Arabic goal labels run longer, so they get more room.
+  const rtl = document.documentElement.dir === "rtl";
+  const room = rtl ? LABEL_ROOM + 56 : LABEL_ROOM;
+  const plot = { left: 4, right: narrow ? W - 4 : W - room, top: 34, bottom: 214 };
+  const mx = (x) => (rtl ? W - x : x);
+  const rows = [...figure.querySelectorAll("tbody tr")].map((tr) => ({
+    year: tr.querySelector("th").textContent.trim(),
+    value: Number(tr.querySelector("td").textContent.trim()),
+  }));
+  if (!rows.length || rows.some((r) => Number.isNaN(r.value))) return;
 
-  card.addEventListener("toggle", () => {
-    setHintState(card);
+  const max = Number(figure.dataset.max);
+  const goal = Number(figure.dataset.goal);
+  const unit = figure.dataset.unit || "";
+  const decimals = Number(figure.dataset.decimals || 0);
+  const y = (v) => plot.bottom - (v / max) * (plot.bottom - plot.top);
+  const slot = (plot.right - plot.left) / rows.length;
+  const barW = Math.min(56, slot * 0.62);
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart-svg", "aria-hidden": "true", focusable: "false", direction: "ltr" });
+  const bars = el("g", {});
+  const labels = el("g", {});
+
+  rows.forEach((r, i) => {
+    const cx = plot.left + slot * (i + 0.5);
+    const top = y(r.value);
+    const latest = i === rows.length - 1;
+    bars.append(el("rect", {
+      class: latest ? "bar bar-latest" : "bar",
+      x: mx(cx) - barW / 2, y: top, width: barW, height: plot.bottom - top,
+    }));
+    labels.append(el("text", { class: "bar-value", x: mx(cx), y: top - 8, "text-anchor": "middle" }, r.value.toFixed(decimals) + unit));
+    labels.append(el("text", { class: "bar-year", x: mx(cx), y: plot.bottom + 22, "text-anchor": "middle" }, r.year));
   });
 
-  const summary = card.querySelector("summary");
-  if (!summary) return;
+  svg.append(bars, el("line", { class: "chart-base", x1: mx(plot.left), x2: mx(plot.right), y1: plot.bottom, y2: plot.bottom }), labels);
 
-  summary.addEventListener("keydown", (event) => {
-    if (event.key === " " || event.key === "Spacebar") {
-      event.preventDefault();
-      card.open = !card.open;
-    }
-  });
+  const label = figure.dataset.goalLabel;
+  if (goal > 0) {
+    const gy = y(goal);
+    // Under the value labels, so their halo keeps a passing goal line from striking through a number.
+    svg.insertBefore(el("line", { class: "goal-line", x1: mx(plot.left), x2: mx(narrow ? plot.right : plot.right + 8), y1: gy, y2: gy }), labels);
+  }
+  // A goal of zero is the baseline itself, so it gets a label but no second line.
+  if (label) {
+    const at = narrow
+      ? { x: plot.left, y: plot.bottom + 52 }
+      : { x: plot.right + 16, y: goal > 0 ? y(goal) + 4 : plot.bottom + 4 };
+    // The svg is drawn left-to-right; an RTL label needs its own direction or bidi reorders "%" and digits.
+    const dir = rtl ? { direction: "rtl" } : {};
+    svg.append(el("text", { class: "goal-label", x: mx(at.x), y: at.y, ...dir }, (narrow && goal > 0 ? "- - " : "") + label));
+  }
+
+  const title = document.createElement("p");
+  title.className = "chart-title";
+  title.setAttribute("aria-hidden", "true");
+  title.textContent = figure.querySelector("caption").textContent;
+
+  figure.prepend(title, svg);
+  figure.classList.add("is-drawn");
+}
+
+const charts = document.querySelectorAll("figure[data-chart]");
+charts.forEach(drawChart);
+
+let lastWidth = innerWidth;
+addEventListener("resize", () => {
+  if (innerWidth === lastWidth) return; // mobile URL-bar scrolls fire resize with no width change
+  lastWidth = innerWidth;
+  charts.forEach(drawChart);
 });
 
-/* ============================================================
-   LevelUp 1: auto-detect language change and apply RTL.
-   Google Translate adds "translated-rtl" / "translated-ltr" to <html>
-   and swaps the lang attribute. We watch both, flip the page direction,
-   and swap Bootstrap to its RTL build.
-   ============================================================ */
-const RTL_LANGS = new Set(["ar", "he", "fa", "ur", "ps", "sd", "ug", "yi"]);
-const LTR_CSS = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
-const RTL_CSS = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css";
-
-// Pure decision function (unit-checkable via ?selftest).
-function shouldUseRtl(htmlEl) {
-  if (htmlEl.classList.contains("translated-rtl")) return true;
-  if (htmlEl.classList.contains("translated-ltr")) return false;
-  const lang = (htmlEl.getAttribute("lang") || "en").slice(0, 2).toLowerCase();
-  return RTL_LANGS.has(lang);
-}
-
-function applyDirection() {
-  const html = document.documentElement;
-  const rtl = shouldUseRtl(html);
-  const dir = rtl ? "rtl" : "ltr";
-  // Only write when the value actually changes — otherwise setAttribute
-  // re-fires the MutationObserver below and loops forever, freezing the page.
-  if (html.getAttribute("dir") !== dir) html.setAttribute("dir", dir);
-  const css = document.getElementById("bootstrap-css");
-  const wanted = rtl ? RTL_CSS : LTR_CSS;
-  if (css && css.getAttribute("href") !== wanted) css.setAttribute("href", wanted);
-}
-
-new MutationObserver(applyDirection).observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ["class", "lang", "dir"],
-});
-applyDirection();
-
-/* ============================================================
-   Subscription form: Bootstrap-style validation + success message.
-   ============================================================ */
-const newsletterForm = document.getElementById("newsletter-form");
-if (newsletterForm) {
-  newsletterForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const status = document.getElementById("form-status");
-    if (!newsletterForm.checkValidity()) {
-      newsletterForm.classList.add("was-validated");
-      status.textContent = "";
-      return;
+// Bars are fully drawn by default; the rise only replays them once a chart is on screen.
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add("is-growing");
+      io.unobserve(entry.target);
     }
-    newsletterForm.classList.remove("was-validated");
-    newsletterForm.reset();
-    status.textContent = "Validation complete. This educational demo did not submit or retain your information.";
-  });
-}
-
-/* ============================================================
-   Language buttons -> Google Website Translator.
-   Sets the googtrans cookie and reloads; the widget reads it on load and
-   translates the page. For Arabic it adds "translated-rtl" to <html>, which
-   the observer above turns into a full right-to-left layout.
-   ============================================================ */
-function setSiteLanguage(lang) {
-  const cookie = "googtrans=/en/" + lang + ";path=/";
-  document.cookie = cookie;                          // host-only
-  document.cookie = cookie + ";domain=" + location.hostname;
-  location.reload();
-}
-
-const arBtn = document.getElementById("lang-ar");
-const enBtn = document.getElementById("lang-en");
-if (arBtn) arBtn.addEventListener("click", () => setSiteLanguage("ar"));
-if (enBtn) enBtn.addEventListener("click", () => setSiteLanguage("en"));
-
-/* ponytail: one runnable self-check for the RTL branch. Runs only with
-   ?selftest in the URL so the production console stays clean. */
-if (location.search.includes("selftest")) {
-  const fake = (cls, lang) => {
-    const el = document.createElement("html");
-    if (cls) el.className = cls;
-    if (lang) el.setAttribute("lang", lang);
-    return el;
-  };
-  console.assert(shouldUseRtl(fake("translated-rtl")) === true, "rtl class => rtl");
-  console.assert(shouldUseRtl(fake("translated-ltr", "ar")) === false, "ltr class wins over lang");
-  console.assert(shouldUseRtl(fake("", "ar")) === true, "arabic lang => rtl");
-  console.assert(shouldUseRtl(fake("", "en")) === false, "english lang => ltr");
-  console.log("selftest: RTL detection OK");
+  }, { threshold: 0.35 });
+  charts.forEach((c) => io.observe(c));
 }
