@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Same CSP as the shipped Intel sites. Markup carries no style attributes; scripts set values through CSSOM setProperty, which style-src self allows. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-src 'none'; upgrade-insecure-requests" />
+  <meta name="robots" content="noindex" />
+  <!-- Arabic copy in this experiment has NOT had native-speaker review. Do not publish until it has. -->
+  <title>Instrument Room — experiment</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-light="warm">
+  <main class="room">
+    <div class="stage" aria-hidden="true">
+      <div class="wafer-stage"><canvas class="wafer-canvas"></canvas></div>
+    </div>
+
+    <!-- 1. Threshold -->
+    <section class="scene" data-light="warm" aria-labelledby="s1-title">
+      <h1 id="s1-title" class="headline">حدّدت إنتل خمسة مواعيد نهائية للمناخ. واحد منها على وشك التحقق.</h1>
+      <p class="caption">100 شريحة، كلٌّ منها نقطة مئوية من كهرباء إنتل. <span class="num">99</span> منها مضاءة: الحصة المتجددة من الكهرباء في 2025.</p>
+    </section>
+
+    <!-- 2. Electricity: five rows, one per year, on a 0–100% rail -->
+    <section class="scene" data-light="warm" aria-labelledby="s2-title">
+      <h2 id="s2-title" class="scene-label">الكهرباء المتجددة</h2>
+      <div class="scale">
+        <div class="track"><span class="yr num">2021</span><span class="rail"><span class="pt" data-prop="left" data-to="80%"></span></span><span class="val num">80%</span></div>
+        <div class="track"><span class="yr num">2022</span><span class="rail"><span class="pt" data-prop="left" data-to="93%"></span></span><span class="val num">93%</span></div>
+        <div class="track"><span class="yr num">2023</span><span class="rail"><span class="pt" data-prop="left" data-to="99%"></span></span><span class="val num">99%</span></div>
+        <div class="track"><span class="yr num">2024</span><span class="rail"><span class="pt" data-prop="left" data-to="98%"></span></span><span class="val num">98%</span></div>
+        <div class="track"><span class="yr num">2025</span><span class="rail"><span class="pt" data-prop="left" data-to="99%"></span></span><span class="val num">99%</span></div>
+        <div class="track axis-row" aria-hidden="true"><span></span><span class="rail"><span class="lab lab-0 num">0%</span><span class="lab lab-50 num">50%</span><span class="lab lab-100 num">100%</span></span><span></span></div>
+      </div>
+      <p class="caption">عالميًا، من إجمالي استهلاك الكهرباء. كوستاريكا 97%. الهدف 100% بحلول 2030.</p>
+    </section>
+
+    <!-- 3. Waste and water: two limits, two scales. Light cools. -->
+    <section class="scene" data-light="cool" aria-labelledby="s3-title">
+      <h2 id="s3-title" class="scene-label">النفايات المرسلة إلى المدافن والمياه</h2>
+
+      <div class="meter">
+        <p class="meter-name">النفايات المرسلة إلى المدافن · من إجمالي النفايات</p>
+        <div class="rail-wide">
+          <span class="fill" data-prop="width" data-to="42.86%"></span><span class="series-dot" data-prop="left" data-to="71.43%"></span><span class="series-dot" data-prop="left" data-to="85.71%"></span><span class="series-dot" data-prop="left" data-to="85.71%"></span><span class="series-dot" data-prop="left" data-to="57.14%"></span>
+          <span class="limit"></span>
+          <span class="lab lab-limit">الحد: أقل من <span class="num">1%</span></span><span class="lab lab-max"><span class="num">7%</span></span><span class="lab lab-min"><span class="num">0%</span></span>
+        </div>
+        <p class="meter-val"><span class="num">3%</span> · <span class="num">2021: 5 · 2022: 6 · 2023: 6 · 2024: 4 · 2025: 3</span></p>
+      </div>
+
+      <div class="meter">
+        <p class="meter-name">المياه · صافي إيجابي، عالميًا</p>
+        <div class="rail-wide">
+          <span class="fill fill-water" data-prop="width" data-to="85.83%"></span><span class="series-dot" data-prop="left" data-to="82.5%"></span><span class="series-dot" data-prop="left" data-to="89.17%"></span><span class="series-dot" data-prop="left" data-to="91.67%"></span><span class="series-dot" data-prop="left" data-to="88.33%"></span>
+          <span class="goal-mark" aria-hidden="true"></span>
+          <span class="lab lab-goal">الهدف <span class="num">100%</span></span><span class="lab lab-max"><span class="num">120%</span></span><span class="lab lab-min"><span class="num">0%</span></span>
+        </div>
+        <p class="meter-val"><span class="num">103%</span> · <span class="num">2021: 99 · 2022: 107 · 2023: 110 · 2024: 106 · 2025: 103</span></p>
+        <p class="caption">عالميًا؛ تُحتسب دولةً بدولة. صافٍ إيجابي في الولايات المتحدة والهند وكوستاريكا لعام 2025.</p>
+      </div>
+    </section>
+
+    <!-- 4. Emissions: absolute bars in million tonnes. The computed change is text, never the scale. -->
+    <section class="scene" data-light="cool" aria-labelledby="s4-title">
+      <h2 id="s4-title" class="scene-label">الانبعاثات (النطاق 1 + النطاق 2 حسب السوق)</h2>
+      <div class="bars">
+        <div class="bar-col"><span class="bar" data-prop="height" data-to="93.75%"></span><span class="bar-y num">2021<br>1.50</span></div>
+        <div class="bar-col"><span class="bar" data-prop="height" data-to="95.63%"></span><span class="bar-y num">2022<br>1.53</span></div>
+        <div class="bar-col"><span class="bar" data-prop="height" data-to="55.63%"></span><span class="bar-y num">2023<br>0.89</span></div>
+        <div class="bar-col"><span class="bar" data-prop="height" data-to="75%"></span><span class="bar-y num">2024<br>1.20</span></div>
+        <div class="bar-col"><span class="bar" data-prop="height" data-to="82.5%"></span><span class="bar-y num">2025<br>1.32</span></div>
+      </div>
+      <p class="axis-note">المقياس: من 0 إلى 1.6 مليون طن</p>
+      <p class="computed">محسوب: <span class="num">(1.32 ÷ 0.89 − 1) × 100 = 48.3%</span></p>
+      <p class="caption">مليون طن من ثاني أكسيد الكربون المكافئ. ارتفاع 48.3% بين 2023 و2025 محسوب من أرقام إنتل، وليس رقمًا معلنًا منها.</p>
+    </section>
+
+    <!-- 5. Scope 3: the rail ends at a same-size bay. No value, no zero. Then the index. -->
+    <section class="scene" data-light="warm" aria-labelledby="s5-title">
+      <h2 id="s5-title" class="scene-label">النطاق 3 في سلسلة التوريد</h2>
+      <div class="bay" role="group" aria-labelledby="bay-title">
+        <p id="bay-title" class="bay-title">لا رقم تقدّم منشور</p>
+        <p class="bay-note">الهدف: صافي انبعاثات صفري بحلول 2050. طلبت إنتل من أكبر مورّديها في 2026 خططًا وأهدافًا مُتحقَّقًا منها.</p>
+      </div>
+      <p class="index-note">القيم الحالية (2025)، ومقارنتها بـ 2021.</p>
+      <dl class="index">
+        <div class="index-row"><dt>الكهرباء المتجددة · 2030</dt><dd><span class="num">99%</span> · كان <span class="num">80%</span></dd></div>
+        <div class="index-row"><dt>النفايات إلى المدافن · 2030</dt><dd><span class="num">3%</span> · كان <span class="num">5%</span> · الحد أقل من <span class="num">1%</span></dd></div>
+        <div class="index-row"><dt>المياه · 2030</dt><dd><span class="num">103%</span> عالميًا · كان <span class="num">99%</span></dd></div>
+        <div class="index-row"><dt>انبعاثات النطاق 1 + 2 · 2040</dt><dd><span class="num">1.32</span> مليون طن · كان <span class="num">1.50</span></dd></div>
+        <div class="index-row index-row-open"><dt>النطاق 3 · 2050</dt><dd>لا رقم تقدّم منشور</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="disclaimer" lang="en" dir="ltr">
+    <p><strong>Disclaimer.</strong> Experimental design, not a finished publication. The Arabic text has not yet been reviewed by a native speaker and may contain errors. Figures are Intel's own reported numbers for 2021–2025, except the 48.3% emissions change, which is computed on this page from Intel's figures. Scope 3 has no published progress figure. This is an independent student project and is not affiliated with or endorsed by Intel.</p>
+  </footer>
+
+  <script type="module" src="wafer.js"></script>
+  <script src="room.js"></script>
+</body>
+</html>
